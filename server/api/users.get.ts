@@ -1,7 +1,10 @@
 import { graphql } from 'gql.tada'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 export default defineEventHandler(async (event) => {
-    const response = await event.context.client.query({
+    const apolloClient = event.context.client as ApolloClient<InMemoryCache>
+
+    const response = await apolloClient.query({
         query: graphql(`
             query {
                 users {
@@ -14,5 +17,5 @@ export default defineEventHandler(async (event) => {
         `),
     })
 
-    return response.data.users.data
+    return response.data.users?.data
 })
