@@ -1,13 +1,8 @@
-import { gql } from '@apollo/client/core'
+import { graphql } from 'gql.tada'
 
-type User = {
-    id: string
-    name: string
-}
-
-export default defineEventHandler(async (event): Promise<User> => {
+export default defineEventHandler(async (event) => {
     const response = await event.context.client.query({
-        query: gql`
+        query: graphql(`
             query {
                 users {
                     data {
@@ -16,7 +11,7 @@ export default defineEventHandler(async (event): Promise<User> => {
                     }
                 }
             }
-        `,
+        `),
     })
 
     return response.data.users.data
